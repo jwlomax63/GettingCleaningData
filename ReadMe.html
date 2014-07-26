@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<!-- saved from url=(0014)about:internet -->
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=9" >
+
+<title>Getting and Cleaning Data Project</title>
+
+<style type="text/css">
+body, td {
+   font-family: sans-serif;
+   background-color: white;
+   font-size: 12px;
+   margin: 8px;
+}
+
+tt, code, pre {
+   font-family: 'DejaVu Sans Mono', 'Droid Sans Mono', 'Lucida Console', Consolas, Monaco, monospace;
+}
+
+h1 { 
+   font-size:2.2em; 
+}
+
+h2 { 
+   font-size:1.8em; 
+}
+
+h3 { 
+   font-size:1.4em; 
+}
+
+h4 { 
+   font-size:1.0em; 
+}
+
+h5 { 
+   font-size:0.9em; 
+}
+
+h6 { 
+   font-size:0.8em; 
+}
+
+a:visited {
+   color: rgb(50%, 0%, 50%);
+}
+
+pre {	
+   margin-top: 0;
+   max-width: 95%;
+   border: 1px solid #ccc;
+   white-space: pre-wrap;
+}
+
+pre code {
+   display: block; padding: 0.5em;
+}
+
+code.r, code.cpp {
+   background-color: #F8F8F8;
+}
+
+table, td, th {
+  border: none;
+}
+
+blockquote {
+   color:#666666;
+   margin:0;
+   padding-left: 1em;
+   border-left: 0.5em #EEE solid;
+}
+
+hr {
+   height: 0px;
+   border-bottom: none;
+   border-top-width: thin;
+   border-top-style: dotted;
+   border-top-color: #999999;
+}
+
+@media print {
+   * { 
+      background: transparent !important; 
+      color: black !important; 
+      filter:none !important; 
+      -ms-filter: none !important; 
+   }
+
+   body { 
+      font-size:12pt; 
+      max-width:100%; 
+   }
+       
+   a, a:visited { 
+      text-decoration: underline; 
+   }
+
+   hr { 
+      visibility: hidden;
+      page-break-before: always;
+   }
+
+   pre, blockquote { 
+      padding-right: 1em; 
+      page-break-inside: avoid; 
+   }
+
+   tr, img { 
+      page-break-inside: avoid; 
+   }
+
+   img { 
+      max-width: 100% !important; 
+   }
+
+   @page :left { 
+      margin: 15mm 20mm 15mm 10mm; 
+   }
+     
+   @page :right { 
+      margin: 15mm 10mm 15mm 20mm; 
+   }
+
+   p, h2, h3 { 
+      orphans: 3; widows: 3; 
+   }
+
+   h2, h3 { 
+      page-break-after: avoid; 
+   }
+}
+
+</style>
+
+
+
+
+
+</head>
+
+<body>
+<h1>Getting and Cleaning Data Project</h1>
+
+<h2>Objectives</h2>
+
+<p>For this project there are two &#39;tidy&#39; datasets to create. </p>
+
+<ul>
+<li><p>A dataset containing complete observations of subject, activity and specific
+features. Only those features representing a mean or standard deviation 
+value will be collected. The specfic features will be appropriately labeled
+with their corresponding subjects and activities. Activities should be 
+meaningful names, not numeric codes.</p></li>
+<li><p>A second dataset using the first to report the mean value of each feature for each unique combination of subject and activity.</p></li>
+</ul>
+
+<p><strong>It was ambiguous which dataset should be uploaded. To disambiguate only the second dataset, the summary of the feature means per subject/activity, will be uploaded.</strong></p>
+
+<p>Additionally, a R markdown file (this thing) describing the method for analyzing the files and the variables was required. </p>
+
+<p><strong>It was ambiguous whether &#39;variables&#39; are those used in the analysis algorithm or the variables of the final summary analysis, so I included both to disambiguate.</strong></p>
+
+<h2>Instructions</h2>
+
+<ul>
+<li><strong>setwd()</strong> to the directory above the topmost directory of the downloaded Samsung data</li>
+<li><strong>source()</strong> the run_analysis.R file, prefixed with the path where it lives.</li>
+</ul>
+
+<h2>Algorithm | First Dataset</h2>
+
+<ul>
+<li>Load the activity code for both the training and testing sets </li>
+<li>Load the map of activity codes to names</li>
+<li>Translate the activity codes into names for both the training and testing sets</li>
+<li>Load the subjects for the training and testing sets</li>
+<li>Load training/testing set feature names</li>
+<li>Load the training/testing sets with feature names</li>
+<li>Reduce the features of the training and testing sets to those representing mean and standard deviations</li>
+<li>Add the activity names to the respective reduced training and testing sets</li>
+<li>Add the subjects to the respective reduced training and testing sets</li>
+<li>Merge the training and testing sets into a complete set</li>
+<li>Write the complete set (conditionally install MASS package)</li>
+</ul>
+
+<h2>Algorithm | Second Dataset</h2>
+
+<ul>
+<li>Determine the unique combinations of subject and activty</li>
+<li>For each unique combination collect the correpsonding rows in the complete, reduced dataset.</li>
+<li>Calculate the column means for the features</li>
+<li>Write out the summary dataset - subject, activity, feature means</li>
+</ul>
+
+<h2>Variables | Algorithms</h2>
+
+<p>These are the computationally relevant variables used in the R algorithm. There are gobs of other variables but I used those for post-facto sanity checks.</p>
+
+<ul>
+<li><p><strong>activity.names</strong>: Map of activity codes and names</p></li>
+<li><p><strong>complete.reducedFeatures</strong>: Mean and standard deviation feature values for the merged testing and training observations for all subjects and activities</p></li>
+<li><p><strong>complete.reducedFeatures.ncol</strong>: The number of columns in the merged and reduced dataset. This will be the column dimension of the features averages in the final sumamry dataset</p></li>
+<li><p><strong>feature.names</strong>: Map of feature column position and names</p></li>
+<li><p><strong>feature.meanStdIndices</strong>: The indices of the feature set representing mean or standard deviation values</p></li>
+<li><p><strong>featureCount.expected</strong>: Expected number of features, according to the README</p></li>
+<li><p><strong>massInstalled</strong>: Is the MASS package installed? Used to conditionally                         install MASS which is used to write out the datasets</p></li>
+<li><p><strong>meanStdGrepPattern</strong>: The regex pattern used to tweeze out variable names representing mean and standard deviation calculation names.</p></li>
+<li><p><strong>subjectActivity</strong>:Subset of the merged, reduced dataset specific to a unique combination of subject and activity</p></li>
+<li><p><strong>subjectActivityMeans</strong>:Feature means for unique combination of subject and activity</p></li>
+<li><p><strong>summary</strong>: The final dataset; feature means for unique combinations of subject and activity.</p></li>
+<li><p><strong>testing.actvityCodes</strong>: Activity codes for testing observations</p></li>
+<li><p><strong>testing.actvityNames</strong>: Activity names for testing observations</p></li>
+<li><p><strong>testing.features</strong>: Feature values for testing observations</p></li>
+<li><p><strong>testing.reStducedFeatures</strong>:Mean and standard deviation feature values for testing observations for all subjects and activities</p></li>
+<li><p><strong>training.actvityCodes</strong>: Activity codes for training observations</p></li>
+<li><p><strong>training.actvityNames</strong>: Activity names for training observations</p></li>
+<li><p><strong>training.features</strong>: Feature values for training observations</p></li>
+<li><p><strong>training.reducedFeatures</strong>: Mean and standard deviation feature values for training observations for all subjects and activities</p></li>
+<li><p><strong>uniqueSubjectActivity</strong>:  Contains the unique combinations of subject and activity from the merged and reduce dataset</p></li>
+<li><p><strong>uniqueSubjectActivity.nrow</strong>: Contains the number of unique combinations of subject and activity from the merged and reduce dataset. This will be the row dimension of the final summary </p></li>
+</ul>
+
+<h2>Variables | Summary Dataset</h2>
+
+<p><strong>Note</strong>: All variables listed, except activity and subject, report the mean value of the description provided. It seems pointless drudgery to include that fact for every description.</p>
+
+<ul>
+<li><p><strong>activity</strong>: The name of the activity for this observation                </p></li>
+<li><p><strong>fBodyAcc-mean()-X, fBodyAcc-mean()-Y,fBodyAcc-mean()-Z</strong>:  The mean 3-axial measurements(X,Y,Z) of body acceleration signals, passed through a Fast Fourier Transform to produce frequency domain signals.</p></li>
+<li><p><strong>fBodyAcc-std()-X, fBodyAcc-std()-Y, fBodyAcc-std()-Z</strong>: The standard deviation in 3-axial measurements(X,Y,Z) of body acceleration signals, passed through a Fast Fourier Transform to produce frequency domain siignals.          </p></li>
+<li><p><strong>fBodyAccJerk-mean()-X, fBodyAccJerk-mean()-Y, fBodyAccJerk-mean()-Z</strong>: The mean 3-axial measurements(X,Y,Z) of Jerk measurements derived from body linear acceleration and angular velocity , passed through a Fast Fourier Transform to produce frequency domain signals.     </p></li>
+<li><p><strong>fBodyAccJerk-std()-X, fBodyAccJerk-std()-Y, fBodyAccJerk-std()-Z</strong>:  The standard deviation in 3-axial (X,Y,Z) Jerk measurements derived from body linear acceleration and angular velocity signals , passed through a Fast Fourier Transform to produce frequency domain signals.  </p></li>
+<li><p><strong>fBodyAccMag-mean()</strong>: The mean magnitude of body acceleration signals, passed through a Fast Fourier Transform to produce frequency domain signals.  </p></li>
+<li><p><strong>fBodyAccMag-std()</strong>: The standard deviation in magnitude of body acceleration signals, passed through a Fast Fourier Transform to produce frequency domain signals.</p></li>
+<li><p><strong>fBodyBodyAccJerkMag-mean()</strong>: The means of linear acceleration Jerk measurements magnitudes, passed through a Fast Fourier Transform to produce frequency domain signals. </p></li>
+<li><p><strong>fBodyBodyAccJerkMag-std()</strong>:  The standard deviation in linear acceleration Jerk measurement magnitudes, passed through a Fast Fourier Transform to produce frequency domain signals. </p></li>
+<li><p><strong>fBodyBodyGyroJerkMag-mean()</strong>: The means of angular velocity Jerk measurements magnitudes, passed through a Fast Fourier Transform to produce frequency domain signals.</p></li>
+<li><p><strong>fBodyBodyGyroJerkMag-std()</strong>: The standard deviation in angualr velocity Jerk measurements magnitudes, passed through a Fast Fourier Transform to produce frequency domain signals.</p></li>
+<li><p><strong>fBodyBodyGyroMag-mean()</strong>: The means of angular velocity measurements magnitudes, passed through a Fast Fourier Transform to produce frequency domain signals.</p></li>
+<li><p><strong>fBodyBodyGyroMag-std()</strong>: The standard deviation in angular velocity measurements magnitudes, passed through a Fast Fourier Transform to produce frequency domain signals.</p></li>
+<li><p><strong>fBodyGyro-mean()-X,fBodyGyro-mean()-Y, fBodyGyro-mean()-Z</strong>:  The mean 3-axial measurements(X,Y,Z) of angualr velocity  signals, passed through a Fast Fourier Transform to produce frequency domain signals.</p></li>
+<li><p><strong>fBodyGyro-std()-X, fBodyGyro-std()-Y, fBodyGyro-std()-Z</strong>: The standard deviation in 3-axial measurements(X,Y,Z) of angualr velocity  signals, passed through a Fast Fourier Transform to produce frequency domain signals.</p></li>
+<li><p><strong>subject</strong>: The subject (coded) for this observation                   </p></li>
+<li><p><strong>tBodyAcc-mean()-X, tBodyAcc-mean()-Y, tBodyAcc-mean()-Z</strong>: The mean 3-axial measurements(X,Y,Z) of body acceleration signals passed through a low-pass Butterworth filter with a corner frequency of 0.3 Hz.          </p></li>
+<li><p><strong>tBodyAcc-std()-X, tBodyAcc-std()-Y, tBodyAcc-std()-Z</strong>:   Standard deviation in 3-axial measurements(X,Y,Z) of body acceleration signals, passed through a low-pass Butterworth filter with a corner frequency of 0.3 Hz.  </p></li>
+<li><p><strong>tBodyAccJerk-mean()-X, tBodyAccJerk-mean()-Y, tBodyAccJerk-mean()-Z</strong>:  Mean 3-axial measurements(X,Y,Z) of body acceleration Jerk signals, passed through a low-pass Butterworth filter with a corner frequency of 0.3 Hz. </p></li>
+<li><p><strong>tBodyAccJerk-std()-X, tBodyAccJerk-std()-Y,tBodyAccJerk-std()-Z</strong>: Standard deviation in 3-axial measurements(X,Y,Z) of body acceleration Jerk signals, passed through a low-pass Butterworth filter with a corner frequency of 0.3 Hz.</p></li>
+<li><p><strong>tBodyAccJerkMag-mean()</strong>: Mean magnitude measurements of body acceleration Jerk signals, passed through a low-pass Butterworth filter with a corner frequency of 0.3 Hz.</p></li>
+<li><p><strong>tBodyAccJerkMag-std()</strong>: Standard deviation in magnitude measurements of body acceleration Jerk signals, passed through a low-pass Butterworth filter with a corner frequency of 0.3 Hz. </p></li>
+<li><p><strong>tBodyAccMag-mean()</strong>: Mean magnitude measurements of body acceleration signals, passed through a low-pass Butterworth filter with a corner frequency of 0.3 Hz.</p></li>
+<li><p><strong>tBodyAccMag-std()</strong>:  Standard deviation in magnitude measurements of body acceleration signals, passed through a low-pass Butterworth filter with a corner frequency of 0.3 Hz.        </p></li>
+<li><p><strong>tBodyGyro-mean()-X, tBodyGyro-mean()-Y, tBodyGyro-mean()-Z</strong>: The mean 3-axial measurements(X,Y,Z) of angular velocity signals passed through a low-pass Butterworth filter with a corner frequency of 0.3 Hz. to produce time domain signals</p></li>
+<li><p><strong>tBodyGyro-std()-X, tBodyGyro-std()-Y, tBodyGyro-std()-Z</strong>:  The standard deviation in 3-axial measurements(X,Y,Z) of angular velocity signals passed through a low-pass Butterworth filter with a corner frequency of 0.3 Hz. to produce time domain signals </p></li>
+<li><p><strong>tBodyGyroJerk-mean()-X,tBodyGyroJerk-mean()-Y tBodyGyroJerk-mean()-Z</strong>:  The mean 3-axial measurements(X,Y,Z) of Jerk signals based on angular velocity signals passed through a low-pass Butterworth filter with a corner frequency of 0.3 Hz. to produce time domain signals.</p></li>
+<li><p><strong>tBodyGyroJerk-std()-X, tBodyGyroJerk-std()-Y, tBodyGyroJerk-std()-Z</strong>:  The standard devaition in 3-axial measurements(X,Y,Z) of Jerk signals based on angular velocity signals passed through a low-pass Butterworth filter with a corner frequency of 0.3 Hz. to produce time domain signals. </p></li>
+<li><p><strong>tBodyGyroJerkMag-mean()</strong>: The mean magnitude of Jerk signals based on angular velocity signals passed through a low-pass Butterworth filter with a corner frequency of 0.3 Hz. to produce time domain signals.  </p></li>
+<li><p><strong>tBodyGyroJerkMag-std()</strong>: The standard deviation in magnitude of Jerk signals based on angular velocity signals passed through a low-pass Butterworth filter with a corner frequency of 0.3 Hz. to produce time domain signals.</p></li>
+<li><p><strong>tBodyGyroMag-mean()</strong>: The mean magnitude of angular velocity signals passed through a low-pass Butterworth filter with a corner frequency of 0.3 Hz. to produce time domain signals        </p></li>
+<li><p><strong>tBodyGyroMag-std()</strong>:  The standard deviation in angular velocity signals passed through a low-pass Butterworth filter with a corner frequency of 0.3 Hz. to produce time domain signals               </p></li>
+<li><p><strong>tGravityAcc-mean()-X, tGravityAcc-mean()-Y, tGravityAcc-mean()-Z</strong>: The mean 3-axial measurements(X,Y,Z) of gravity acceleration signals passed through a low-pass Butterworth filter with a corner frequency of 0.3 Hz to produce time domain signals.</p></li>
+<li><p><strong>tGravityAcc-std()-X, tGravityAcc-std()-Y, tGravityAcc-std()-Z</strong>: The standard deviation in 3-axial measurements(X,Y,Z) of gravity acceleration signals passed through a low-pass Butterworth filter with a corner frequency of 0.3 Hz.  </p></li>
+<li><p><strong>tGravityAccMag-mean()</strong>:  The mean magnitude of gravity acceleration signals passed through a low-pass Butterworth filter with a corner frequency of 0.3 Hz to produce time domain signals.   </p></li>
+<li><p><strong>tGravityAccMag-std()</strong>: The standard deviation in  magnitude of gravity acceleration signals passed through a low-pass Butterworth filter with a corner frequency of 0.3 Hz to produce time domain signals.          </p></li>
+</ul>
+
+</body>
+
+</html>
+
